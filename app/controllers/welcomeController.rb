@@ -57,7 +57,14 @@ class WelcomeController < ApplicationController
                       :packages => @@packages,
                       :service_type => "FEDEX_GROUND",
                       :shipping_options => @@shipping_options)
+@@ratejson=@@rate.to_json
+
+@@total_net_charge=JSON.parse(@@ratejson)
+
+#@@fedex::Request::TrackingInformation(:tracking_number=>'149331877648230')
+@@total=@@total_net_charge[0]['total_net_charge']
     def greeting
-        render json:@@rate
+        render plain: @@fedex.track(:tracking_number=>'920241085725456')
+       
     end
 end
